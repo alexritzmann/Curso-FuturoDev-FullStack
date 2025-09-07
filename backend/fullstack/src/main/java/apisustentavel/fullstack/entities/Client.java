@@ -1,7 +1,12 @@
 package apisustentavel.fullstack.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "clients")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -9,6 +14,8 @@ public abstract class Client
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(nullable = false, length = 100)

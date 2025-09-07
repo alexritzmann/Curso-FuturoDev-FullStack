@@ -2,6 +2,7 @@ package apisustentavel.fullstack.entities;
 
 import apisustentavel.fullstack.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -17,22 +18,24 @@ public class User
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
+    @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "display_name", nullable = false, length = 100)
+    @NotBlank
+    @Column(name = "display_name", nullable = false, length = 123)
     private String displayName;
 
-    @NotNull
-    @Column(name = "username", nullable = false, unique = true, length = 50)
+    @NotBlank
+    @Column(name = "username", nullable = false, unique = true, length = 63)
     private String username;
 
-    @NotNull
-    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Column(name = "password", nullable = false, length = 63)
     private String password;
 
-    @NotNull
-    @Column(name = "role", nullable = false, length = 20)
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 31)
     private UserRole role;
 
     @ManyToOne

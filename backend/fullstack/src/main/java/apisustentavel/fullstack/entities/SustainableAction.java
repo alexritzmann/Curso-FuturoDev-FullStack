@@ -4,6 +4,7 @@ import apisustentavel.fullstack.enums.ActionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class SustainableAction
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "action_type")
     private ActionType type;
@@ -37,6 +38,7 @@ public class SustainableAction
     private String description;
 
     @NotNull
+    @PastOrPresent(message = "A data da ação não pode ser uma data futura")
     @Column(name = "date_realization")
     private LocalDate date;
 
@@ -44,6 +46,7 @@ public class SustainableAction
     @Column(name = "responsible", nullable = false, length = 127)
     private String responsible;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client promoter;

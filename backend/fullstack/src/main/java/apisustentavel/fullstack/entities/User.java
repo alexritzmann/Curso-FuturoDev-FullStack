@@ -3,8 +3,8 @@ package apisustentavel.fullstack.entities;
 import apisustentavel.fullstack.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Getter
 @Setter
@@ -33,11 +33,12 @@ public class User
     @Column(name = "password", nullable = false, length = 63)
     private String password;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 31)
     private UserRole role;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

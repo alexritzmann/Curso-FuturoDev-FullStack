@@ -3,6 +3,7 @@ package apisustentavel.fullstack.services;
 
 import apisustentavel.fullstack.dtos.requests.SustainableActionRequestDto;
 import apisustentavel.fullstack.dtos.responses.SustainableActionResponseDto;
+import apisustentavel.fullstack.enums.ActionType;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface SustainableActionService
     SustainableActionResponseDto findById(Long id);
     SustainableActionResponseDto update(Long id, SustainableActionRequestDto request);
     void delete(Long id);
+
+    List<SustainableActionResponseDto> findByType(ActionType type);
 }

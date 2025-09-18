@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
@@ -86,6 +88,27 @@ public class GlobalAdvice
         );
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String errorDetail;
 
+        assert ex.getRequiredType() != null;
+        if (ex.getRequiredType().isEnum()) {
+            errorDetail = String.format("O parâmetro '%s' recebeu o valor '%s', que é inválido. Valores aceitos: %s",
+                    ex.getName(), ex.getValue(), Arrays.toString(ex.getRequiredType().getEnumConstants()));
+        } else {
+            errorDetail = String.format("O parâmetro '%s' recebeu o valor '%s', que é de um tipo inválido. Tipo esperado: %s",
+                    ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+        }
+
+        return ResponseEntity.badRequest().body(
+                new ErrorResponseDto(
+                        "400",
+                        "Erro ao validar parâmetros da requisição",
+                        errorDetail,
+                        ex.getClass().getSimpleName()
+                )
+        );
+    }
 
 }

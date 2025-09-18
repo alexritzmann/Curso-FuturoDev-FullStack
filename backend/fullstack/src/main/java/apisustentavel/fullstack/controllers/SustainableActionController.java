@@ -2,8 +2,10 @@ package apisustentavel.fullstack.controllers;
 
 import apisustentavel.fullstack.dtos.requests.SustainableActionRequestDto;
 import apisustentavel.fullstack.dtos.responses.SustainableActionResponseDto;
+import apisustentavel.fullstack.enums.ActionType;
 import apisustentavel.fullstack.services.SustainableActionService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -49,4 +51,9 @@ public class SustainableActionController
         service.delete(id);
     }
 
+    @GetMapping("/category")
+    public List<SustainableActionResponseDto> findByType(@RequestParam @NotNull ActionType type)
+    {
+        return service.findByType(type);
+    }
 }

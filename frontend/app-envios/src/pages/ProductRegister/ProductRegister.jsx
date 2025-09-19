@@ -65,24 +65,15 @@ const ProductRegister = () => {
 
           <div className={styles.formGroup}>
             <label htmlFor="imageUrl">URL da Imagem</label>
-            <input 
-              type="url" 
-              name="imageUrl" 
-              id="imageUrl" 
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              required
-            />
+            <input type="url" name="imageUrl" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required/>
           </div>
+
           <div className={styles.formActions}>
-            <button 
-              type="submit" 
-              className={styles.submitButton}
-              disabled={loading}
-            >
+            <button type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? "Cadastrando..." : "Cadastrar"}
             </button>
           </div>
+          
           {message && <p>{message}</p>}
         </form>
       </div>

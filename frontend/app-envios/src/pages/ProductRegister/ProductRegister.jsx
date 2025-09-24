@@ -1,7 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 
-import styles from "./ProductRegister.module.css";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 
 const ProductRegister = () => {
 
@@ -9,10 +13,8 @@ const ProductRegister = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ const ProductRegister = () => {
 
       console.log("Cadastro realizado com sucesso:", response.data);
       setMessage("Produto cadastrado com sucesso!");
-      
+      // Limpa o formulário
       setName("");
       setPrice("");
       setDescription("");
@@ -43,41 +45,115 @@ const ProductRegister = () => {
   };
 
   return (
-    <>
-      <div>
-        <h1>Cadastrar Produto</h1>
-        <form onSubmit={handleSubmit} className={styles.form}>
+    <Box // Usando Box do MUI como container principal
+      component="main"
+      sx={{
+        maxWidth: 800,
+        mx: 'auto', // Centraliza horizontalmente
+        p: 3, // Padding
+      }}
+    >
+      <Typography 
+        component="h1" 
+        variant="h4" 
+        gutterBottom // Adiciona margem inferior
+        sx={{ 
+          textAlign: 'center', 
+          fontWeight: 'bold',
+          mb: 4 // Margem inferior maior
+        }}
+      >
+        Cadastrar Produto
+      </Typography>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="name">Nome do Produto</label>
-            <input type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} required/>
-          </div>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3, // Cria um espaçamento consistente entre os campos
+        }}
+      >
+        {/* Campo Nome do Produto */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Nome do Produto"
+          id="name"
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-          <div className={styles.formGroup}>
-            <label htmlFor="price">Preço</label>
-            <input type="number" name="price" id="price" value={price} onChange={(e) => setPrice(e.target.value)} step="0.01" min="0" required/>
-          </div>
+        {/* Campo Preço */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Preço"
+          type="number"
+          id="price"
+          name="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          inputProps={{ 
+            step: "0.01", 
+            min: "0" 
+          }}
+          required
+        />
 
-          <div className={styles.formGroup}>
-            <label htmlFor="description">Descrição</label>
-            <textarea name="description" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required/>
-          </div>
+        {/* Campo Descrição - Multiline */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Descrição"
+          id="description"
+          name="description"
+          multiline // Transforma em textarea
+          minRows={4} // Número mínimo de linhas visíveis :cite[1]:cite[7]
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
 
-          <div className={styles.formGroup}>
-            <label htmlFor="imageUrl">URL da Imagem</label>
-            <input type="url" name="imageUrl" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required/>
-          </div>
+        {/* Campo URL da Imagem */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="URL da Imagem"
+          type="url"
+          id="imageUrl"
+          name="imageUrl"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          required
+        />
 
-          <div className={styles.formActions}>
-            <button type="submit" className={styles.submitButton} disabled={loading}>
-              {loading ? "Cadastrando..." : "Cadastrar"}
-            </button>
-          </div>
-          
-          {message && <p>{message}</p>}
-        </form>
-      </div>
-    </>
+        {/* Área de Ações e Feedback */}
+        <Box sx={{ mt: 2 }}> {/* Margem no topo */}
+          <Button
+            type="submit"
+            variant="contained" // Estilo preenchido
+            size="large" // Botão grande
+            disabled={loading}
+            fullWidth
+          >
+            {loading ? "Cadastrando..." : "Cadastrar Produto"}
+          </Button>
+        </Box>
+
+        {message && (
+          <Alert 
+            severity={message.includes("Erro") ? "error" : "success"} 
+            sx={{ mt: 2 }}
+          >
+            {message}
+          </Alert>
+        )}
+      </Box>
+    </Box>
   );
 };
 
